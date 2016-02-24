@@ -1,10 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'net-ssh'
-
-gem 'omniauth'
-gem 'omniauth-google-oauth2'
-gem 'omniauth-facebook'
 gem 'omniauth-bitbucket'
 
 gem 'bootstrap-sass',       '3.2.0.0'
