@@ -1,1 +1,0 @@
-#samlple_ruby

@@ -5,8 +5,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string :uid
       t.string :name
       t.string :oauth_token
+      t.string :oauth_secret
       t.string :remember_digest
-      t.boolean :admin , default: false
     end
   end
 end

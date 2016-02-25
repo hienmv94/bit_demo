@@ -1,0 +1,18 @@
+<h2>List repos of <%= current_user.name %></h2>
+<table>
+<tr>
+  <th>STT</th>
+  <th>Repos</th>
+  <th>Owner</th>
+  <th>Lastupdate</th>
+</tr>
+<% i=0 %>
+<% @repos.list do |repo| %>
+<tr>
+  <td><%= i=i+1 %></td>
+  <td><%= repo.name %></td>
+  <td><%= repo.owner %></td>
+  <td><%= repo.utc_last_updated %></td>
+<% end%>
+</tr>
+</table>
