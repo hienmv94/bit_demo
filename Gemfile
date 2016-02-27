@@ -4,6 +4,7 @@ gem 'net-ssh'
 gem 'omniauth-bitbucket'
 gem 'bitbucket_rest_api'
 
+gem 'config'
 gem 'bootstrap-sass',       '3.2.0.0'
 gem 'rails', '4.2.3'
 gem 'sass-rails', '~> 5.0'

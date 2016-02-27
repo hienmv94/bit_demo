@@ -13,6 +13,8 @@
   <td><%= repo.name %></td>
   <td><%= repo.owner %></td>
   <td><%= repo.utc_last_updated %></td>
-<% end%>
+  <%= repo.download %>
+  <%= repo.get(repo.owner, repo.name,params={}) %>
 </tr>
+<% end%>
 </table>
