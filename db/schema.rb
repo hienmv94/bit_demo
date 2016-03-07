@@ -11,7 +11,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150827034121) do
+ActiveRecord::Schema.define(version: 20160304085238) do
+
+  create_table "assignments", force: :cascade do |t|
+    t.string   "name"
+    t.string   "repo_name"
+    t.integer  "group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "assignments", ["group_id"], name: "index_assignments_on_group_id"
+
+  create_table "groups", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "groups", ["user_id"], name: "index_groups_on_user_id"
+
+  create_table "member_assignments", force: :cascade do |t|
+    t.integer  "member_id"
+    t.integer  "assignment_id"
+    t.datetime "appointment_date"
+    t.string   "link"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "member_assignments", ["assignment_id"], name: "index_member_assignments_on_assignment_id"
+  add_index "member_assignments", ["member_id"], name: "index_member_assignments_on_member_id"
+
+  create_table "members", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "members", ["group_id"], name: "index_members_on_group_id"
 
   create_table "users", force: :cascade do |t|
     t.string "provider"

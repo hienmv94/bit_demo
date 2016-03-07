@@ -7,14 +7,13 @@
   <th>Lastupdate</th>
 </tr>
 <% i=0 %>
-<% @repos.list do |repo| %>
+
+<% @repositories.list do |repo| %>
 <tr>
   <td><%= i=i+1 %></td>
   <td><%= repo.name %></td>
   <td><%= repo.owner %></td>
   <td><%= repo.utc_last_updated %></td>
-  <%= repo.download %>
-  <%= repo.get(repo.owner, repo.name,params={}) %>
 </tr>
 <% end%>
 </table>
