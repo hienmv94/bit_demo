@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'net-ssh'
+gem 'oauth2-client'
 gem 'omniauth-bitbucket'
 gem 'bitbucket_rest_api'
 
