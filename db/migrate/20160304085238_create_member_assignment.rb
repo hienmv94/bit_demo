@@ -10,7 +10,9 @@ class CreateMemberAssignment < ActiveRecord::Migration
     create_table :assignments do |t|
       t.string :name
       t.string :repo_name
+      t.datetime :due
 
+      t.references :user, index: true, foreign_key: true
       t.references :group, index: true, foreign_key: true
       t.timestamps null: false
     end

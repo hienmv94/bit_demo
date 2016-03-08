@@ -1,0 +1,8 @@
+<p id="notice"><%= notice %></p>
+<%= @assignment.name %>
+<%= @assignment.repo_name %>
+<%= @assignment.group.name %>
+<%= @assignment.due %>
+
+<%= link_to 'Edit', edit_assignment_path(@assignment) %> |
+<%= link_to 'Back', assignments_path %>

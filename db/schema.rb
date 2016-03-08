@@ -16,12 +16,15 @@ ActiveRecord::Schema.define(version: 20160304085238) do
   create_table "assignments", force: :cascade do |t|
     t.string   "name"
     t.string   "repo_name"
+    t.datetime "due"
+    t.integer  "user_id"
     t.integer  "group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   add_index "assignments", ["group_id"], name: "index_assignments_on_group_id"
+  add_index "assignments", ["user_id"], name: "index_assignments_on_user_id"
 
   create_table "groups", force: :cascade do |t|
     t.string   "name"
