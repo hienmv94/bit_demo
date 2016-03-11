@@ -20,39 +20,4 @@ function addForm() {
   $(".remove-choose").hide();
 }
 
-function changeType() {
-  var options = $(".field");
-  options.remove();
-}
 
-var prev;
-$(document).on("focus", ".question-type", function() {
-  prev = this.value;
-});
-
-$(document).on("change", ".question-type", function() {
-  if($(this).val() == "single_choice") {
-    $(".add_member").show();
-    var allCheckboxs = $(".correct");
-    allCheckboxs.each(function(index, cb) {
-      $(cb).attr("checked", false);
-    })
-    if(prev == "text"){
-      changeType();
-    }
-  } else if ($(this).val() == "multiple_choices") {
-    $(".add_answer").show();
-    if(prev == "text"){
-      changeType();
-    }
-  } else if($(this).val() == "text") {
-    $(".add_answer").hide();
-    changeType();
-    addForm();
-    var allCheckboxs = $(".correct");
-    allCheckboxs.each(function(index, cb) {
-      $(cb).attr("checked", true);
-    })
-  }
-  prev = $(this).val();
-});

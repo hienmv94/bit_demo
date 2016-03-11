@@ -1,6 +1,6 @@
 class AssignmentsController < ApplicationController
   before_action :logged_in_user
-  before_action :set_groups, only: [:new, :show, :edit, :update, :destroy]
+  before_action :set_groups, only: [:new, :create, :show, :edit, :update, :destroy]
   before_action :set_assignment, only: [:show, :edit, :update, :destroy]
 
   # GET /assignments
@@ -28,14 +28,18 @@ class AssignmentsController < ApplicationController
   # POST /assignments.json
   def create
     @assignment = current_user.assignments.build assignment_params
-
-    respond_to do |format|
-      if @assignment.save
-        format.html { redirect_to @assignment, notice: 'Assignment was successfully created.' }
-        format.json { render :show, status: :created, location: @assignment }
-      else
-        format.html { render :new }
-        format.json { render json: @assignment.errors, status: :unprocessable_entity }
+    if @assignment.due.to_i < Time.now.to_i
+      flash['danger'] = 'Due was unable.'
+      redirect_to  new_assignment_path
+    else 
+      respond_to do |format|
+        if @assignment.save
+          format.html { redirect_to @assignment, notice: 'Assignment was successfully created.' }
+          format.json { render :show, status: :created, location: @assignment }
+        else
+          format.html { render :new }
+          format.json { render json: @assignment.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -43,13 +47,19 @@ class AssignmentsController < ApplicationController
   # PATCH/PUT /assignments/1
   # PATCH/PUT /assignments/1.json
   def update
-    respond_to do |format|
-      if @assignment.update(assignment_params)
-        format.html { redirect_to @assignment, notice: 'Assignment was successfully updated.' }
-        format.json { render :show, status: :ok, location: @assignment }
-      else
-        format.html { render :edit }
-        format.json { render json: @assignment.errors, status: :unprocessable_entity }
+    @due = params[:due]
+    if @due.to_i < Time.now.to_i
+      flash['danger'] = 'Due was unable.'
+      redirect_to  edit_assignment_path(@assignment)
+    else
+      respond_to do |format|
+        if @assignment.update(assignment_params)
+          format.html { redirect_to @assignment, notice: 'Assignment was successfully updated.' }
+          format.json { render :show, status: :ok, location: @assignment }
+        else
+          format.html { render :edit }
+          format.json { render json: @assignment.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
