@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<h3>Assignment: <%= @assignment.name %></h3>
+<h4>Repository: <%= @assignment.repo_name %></h4>
+<h4>Group: <%= @assignment.group.name %></h4>
+<h4>Due: <%= @assignment.due %></h4>
+<h4>Members</h4>
+<% @assignment.group.members.each do |member|%>
+	<li><%= member.name %></li>
+<% end%>
+
+
+<%= link_to 'Edit', edit_assignment_path(@assignment) %> |
+<%= link_to 'Back', assignments_path %>

@@ -1,0 +1,37 @@
+<%= form_for(@assignment) do |f| %>
+  <% if @assignment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@assignment.errors.count, "error") %> prohibited this assignment from being saved:</h2>
+      <ul>
+      <% @assignment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+ <div class="actions">
+  <table class="table table-bordered">
+    <tr>
+      <td><%= f.label :name %></td>
+      <td><%= f.text_field :name %></td>   
+    </tr>
+    <tr>
+      <td><%= f.label :repo_name %></td>
+      <td><%= f.text_field :repo_name %></td>   
+    </tr>
+    <tr class= "">
+      <td><%= f.label :due %></td>
+      <td><%= f.datetime_select :due, :ampm => true, :start_year => Time.now.year, 
+      :start_months => Time.now.month, :start_day => Time.now.day, :minute_step => 15 %></td>
+    </tr>
+    <div class="col-md-4">
+      <%= f.collection_select :group_id, @groups, :id, :name, {},
+        class: "form-control" %>
+    </div>
+    <tr>
+      
+    </tr>
+    <%= f.submit %>
+  </table>
+  </div>
+<% end %>
