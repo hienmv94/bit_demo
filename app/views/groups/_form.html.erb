@@ -1,4 +1,4 @@
-<%= form_for(@group) do |f| %>
+<%= form_for(@group, html: { class: 'group-form clearfix' }) do |f| %>
   <% if @group.errors.any? %>
     <div id="error_explanation">
       <ul>
@@ -9,26 +9,53 @@
     </div>
   <% end %>
 
-  <div class="actions">
-    <table class="table table-bordered">
-      <tr>
-        <td><%= f.label :name %></td>
-        <td><%= f.text_field :name %></td>   
-      </tr>
-      <div id="members">
-          <%= f.fields_for :members do |member_form| %>
-            <%= render "member_form", f: member_form  %>
-          <% end %>
+  <div class='field'>
+    <div class='row'>
+      <div class='form-group'>
+        <%= f.label :name %>
+        <%= f.text_field :name, class: 'form-control' %>
+      </div>    
+      <div class='appendable'>
+        <%= f.label :members %>
+        <%= f.fields_for :members do |builder| %>
+          <%= render 'member_fields', f: builder %>
+        <% end %>
       </div>
-
-      <div class="option-answers row">
-        <button class="add_member btn btn-primary btn-sm" name="members">
-          <%= t "groups.member" %>
-        </button>
+      <div class="form-group">
+        <%= link_to_add_field 'Add a new Member', f, :members %>
       </div>
-
-      <%= f.submit %>
-    </table>
-    <%= add_fields_member f, :members %>
+    </div>
+    <div class="center">
+      <%= f.submit 'Submit', class: 'btn btn-success' %>
+    </div>
   </div>
-<% end %>
+<% end -%>
+
+<script type='text/javascript'>
+  // remove attachment field
+  function removeField(link) {
+    $(link).prev("input[type=hidden]").val("true");
+    tag = $(link).closest(".field")
+    tag.hide('slow');
+  }
+
+  // add attachment field
+  function addField(link, association, content) {
+    var new_id = new Date().getTime();
+    var regexp = new RegExp("new_" + association, "g");
+    var html = $(content.replace(regexp, new_id)).hide();
+    var target = $(link).closest("div.field").find(".appendable").first();
+
+    var last_height = 0
+    html.appendTo(target).slideDown({
+      duration: 'slow',
+      progress: function () {
+        delta = $(this).outerHeight(true) - last_height
+        $(window).scrollTop( $(window).scrollTop() + delta );
+        last_height = $(this).outerHeight(true);
+      },
+      complete: function () {
+        $(this).find('input[type=text]').focus();
+      }});
+    }
+</script>

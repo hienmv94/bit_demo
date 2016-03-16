@@ -1,11 +1,50 @@
-
-<h3><b><%= @group.name %></b></h3>
-<h4> ALL Member </h4> 
-<% @group.members.each do |member| %>
-	<li>
-	  <%= member.name %>
-	</li>
-<% end %>
-
-<%= link_to 'Edit', edit_group_path(@group) %> |
-<%= link_to 'Back', groups_path %>
+<div class="row">
+  <h1 class="center"><%= @group.name %></h1>
+  <div class="col-md-3">
+	<%= link_to 'Edit', edit_group_path(@group), class: "btn btn-default" %> 
+	<%= link_to 'Back', groups_path, class: "btn btn-default"  %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3 col-md-offset-1"> 
+	<h2 class="center text-info">All Member(<%= @group.members.count %>)</h2>
+	<% if @group.members.any? %>
+	  <table class="table table-striped">
+		<tr>
+	   	  <th>#</th>
+		  <th>Name</th>
+		</tr>
+		<% i=0 %>
+	  <% @group.members.each do |member|%>
+	   	<tr>
+		  <td><%= i=i+1 %></td>
+		  <td><%= member.name %></td>
+	    </tr>
+	  <% end %>
+	  </table>
+	<% end %>
+  </div>
+	
+  <div class="col-md-6 col-md-offset-1">
+	  <h2 class="center text-info">All Assignments(<%= @group.assignments.count %>)</h2>
+		<% if @group.assignments.any? %>
+		  <table class="table table-striped">
+			<tr>
+		   	  <th>#</th>
+			  <th>Name</th>
+			  <th>Repo Name</th>
+			  <th>Due date</th>
+			</tr>
+			<% i=0 %>
+		  <% @group.assignments.each do |assignment|%>
+		   	<tr>
+			  <td><%= i=i+1 %></td>
+			  <td><%= link_to assignment.name, assignment %></td>
+			  <td><%= assignment.repo_name %></td>
+			  <td><%= assignment.due_date %></td>
+		    </tr>
+		  <% end %>
+		  </table>
+		<% end %>
+	  </div>
+</div>
