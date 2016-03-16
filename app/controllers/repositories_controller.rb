@@ -2,9 +2,9 @@ class RepositoriesController < ApplicationController
   before_action :logged_in_user, only: [:index]
   def index
     @repositories = set_bitbucket(current_user).repos
-    @repos = @repositories.get('chiendo97',"ltnc")
+    # @repos = @repositories.get('chiendo97',"ltnc")
     # @list = set_bitbucket(current_user).repos.find(name: 'ltnc')
-    @download = @repositories.get("chiendo97", "ltnc")
+    # @download = @repositories.get("chiendo97", "ltnc")
   end
   
   def show
@@ -15,9 +15,6 @@ class RepositoriesController < ApplicationController
   end
 
   private
-  def repository_params
-    params.require(:repository).permit :repo_name, :due
-  end
   def set_bitbucket(user)
     bitbucket = BitBucket.new do |config|
   	  config.oauth_token   = user.oauth_token

@@ -10,7 +10,7 @@ class CreateMemberAssignment < ActiveRecord::Migration
     create_table :assignments do |t|
       t.string :name
       t.string :repo_name
-      t.datetime :due
+      t.date :due_date
 
       t.references :user, index: true, foreign_key: true
       t.references :group, index: true, foreign_key: true
@@ -18,9 +18,8 @@ class CreateMemberAssignment < ActiveRecord::Migration
     end
  
     create_table :member_assignments do |t|
-      t.belongs_to :member, index: true
-      t.belongs_to :assignment, index: true
-      t.datetime :appointment_date
+      t.references :member, index: true
+      t.references :assignment, index: true, foreign_key: true
       t.string :link
       t.timestamps null: false
     end

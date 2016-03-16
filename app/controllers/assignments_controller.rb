@@ -1,5 +1,6 @@
 class AssignmentsController < ApplicationController
   before_action :logged_in_user
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
   before_action :set_groups, only: [:new, :create, :show, :edit, :update, :destroy]
   before_action :set_assignment, only: [:show, :edit, :update, :destroy]
 
@@ -28,7 +29,7 @@ class AssignmentsController < ApplicationController
   # POST /assignments.json
   def create
     @assignment = current_user.assignments.build assignment_params
-    if @assignment.due.to_i < Time.now.to_i
+    if @assignment.due_date <= Time.now.to_date 
       flash['danger'] = 'Due was unable.'
       redirect_to  new_assignment_path
     else 
@@ -47,8 +48,8 @@ class AssignmentsController < ApplicationController
   # PATCH/PUT /assignments/1
   # PATCH/PUT /assignments/1.json
   def update
-    @due = params[:due]
-    if @due.to_i < Time.now.to_i
+    @due_date = params[:due_date]
+    if @due_date <= Time.now.to_date 
       flash['danger'] = 'Due was unable.'
       redirect_to  edit_assignment_path(@assignment)
     else
@@ -75,18 +76,31 @@ class AssignmentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_assignment
-      @assignment = Assignment.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_assignment
+    @assignment = Assignment.find(params[:id])
+  end
 
-    # Find all groups
-    def set_groups
-      @groups = Group.all
+  # Find all groups
+  def set_groups
+    @groups = Group.all
+  end
+
+  def correct_user
+    if Assignment.exists?(params[:id])
+      @user = Assignment.find(params[:id]).user
+      unless current_user?(@user)
+        flash['danger'] = "Permission denied"
+        redirect_to(assignments_path)
+      end
+    else
+      flash['danger'] = "Assignment not found"
+      redirect_to (assignments_path)
     end
-    
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def assignment_params
-      params.require(:assignment).permit :name, :repo_name, :group_id, :due
-    end
+  end
+  
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def assignment_params
+    params.require(:assignment).permit :name, :repo_name, :group_id, :due_date
+  end
 end

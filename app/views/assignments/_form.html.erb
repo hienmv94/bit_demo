@@ -9,29 +9,25 @@
       </ul>
     </div>
   <% end %>
- <div class="actions">
-  <table class="table table-bordered">
-    <tr>
-      <td><%= f.label :name %></td>
-      <td><%= f.text_field :name %></td>   
-    </tr>
-    <tr>
-      <td><%= f.label :repo_name %></td>
-      <td><%= f.text_field :repo_name %></td>   
-    </tr>
-    <tr class= "">
-      <td><%= f.label :due %></td>
-      <td><%= f.datetime_select :due, :ampm => true, :start_year => Time.now.year, 
-      :start_months => Time.now.month, :start_day => Time.now.day, :minute_step => 15 %></td>
-    </tr>
-    <div class="col-md-4">
-      <%= f.collection_select :group_id, @groups, :id, :name, {},
-        class: "form-control" %>
-    </div>
-    <tr>
-      
-    </tr>
-    <%= f.submit %>
-  </table>
+
+  <div class="form-group">
+    <%= f.label :group %>
+    <%= f.collection_select :group_id, @groups, :id, :name, {},
+      class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control" %>   
+  </div>
+  <div class="form-group">
+    <%= f.label :repo_name %>
+    <%= f.text_field :repo_name, class: "form-control" %>   
+  </div>
+  <div class="form-group">
+    <%= f.label :due_date %>
+    <%= f.date_select :due_date, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.submit class: " col-md-3 btn btn-success" %>
   </div>
 <% end %>

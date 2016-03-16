@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20160304085238) do
   create_table "assignments", force: :cascade do |t|
     t.string   "name"
     t.string   "repo_name"
-    t.datetime "due"
+    t.date     "due_date"
     t.integer  "user_id"
     t.integer  "group_id"
     t.datetime "created_at", null: false
@@ -38,10 +38,9 @@ ActiveRecord::Schema.define(version: 20160304085238) do
   create_table "member_assignments", force: :cascade do |t|
     t.integer  "member_id"
     t.integer  "assignment_id"
-    t.datetime "appointment_date"
     t.string   "link"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   add_index "member_assignments", ["assignment_id"], name: "index_member_assignments_on_assignment_id"

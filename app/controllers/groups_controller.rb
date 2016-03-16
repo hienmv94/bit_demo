@@ -1,11 +1,12 @@
 class GroupsController < ApplicationController
   before_action :logged_in_user
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
   before_action :set_group, only: [:show, :edit, :update, :destroy]
 
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Group.all
+    @groups = current_user.groups
   end
 
   # GET /groups/1
@@ -20,13 +21,13 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/edit
   def edit
+
   end
 
   # POST /groups
   # POST /groups.json
   def create
     @group = current_user.groups.build group_params
-
     respond_to do |format|
       if @group.save
         format.html { redirect_to @group, notice: 'group was successfully created.' }
@@ -67,9 +68,22 @@ class GroupsController < ApplicationController
     def set_group
       @group = Group.find(params[:id])
     end
+    
+    def correct_user
+      if Group.exists?(params[:id])
+        @user = Group.find(params[:id]).user
+        unless current_user?(@user)
+          flash['danger'] = "Permission denied"
+          redirect_to(groups_path)
+        end
+      else
+        flash['danger'] = "Group not found"
+        redirect_to(groups_path)
+      end
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit :name, members_attributes: [:id, :name]
+      params.require(:group).permit :name, members_attributes: [:id, :name, :_destroy]
     end
 end
