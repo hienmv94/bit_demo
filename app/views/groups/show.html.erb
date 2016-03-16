@@ -1,3 +1,4 @@
+<% provide :title, @group.name %>
 <div class="row">
   <h1 class="center"><%= @group.name %></h1>
   <div class="col-md-3">
@@ -41,7 +42,7 @@
 			  <td><%= i=i+1 %></td>
 			  <td><%= link_to assignment.name, assignment %></td>
 			  <td><%= assignment.repo_name %></td>
-			  <td><%= assignment.due_date %></td>
+        	  <td><%= assignment_date assignment %></td>
 		    </tr>
 		  <% end %>
 		  </table>

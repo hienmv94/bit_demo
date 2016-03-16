@@ -1,0 +1,16 @@
+<h2 class="center text-info">Information</h2>
+	<table class="table table-striped">
+	  <tr>
+	  	<th>Repository</th>
+	  	<td><%= @assignment.repo_name %></td>
+	  </tr>
+	  <tr>
+	  	<th>Group</th>
+	  	<td><%= link_to @assignment.group.name, @assignment.group  %></td>
+	  </tr>
+	  </tr>
+	  <tr>
+	  	<th>Due</th>
+	  	<td><%= @assignment.due_date %></td>
+	  </tr>
+	</table>
