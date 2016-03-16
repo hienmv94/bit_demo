@@ -3,7 +3,7 @@ class Group < ActiveRecord::Base
 	
 	has_many :members, dependent: :destroy
 	has_many :assignments, dependent: :destroy
-	has_many :member_assignments
+	has_many :member_assignments, dependent: :destroy
 	
 	accepts_nested_attributes_for :members, :allow_destroy => true
 	validates :name, presence: true
