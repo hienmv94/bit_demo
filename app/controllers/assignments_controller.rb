@@ -2,7 +2,8 @@ class AssignmentsController < ApplicationController
   before_action :logged_in_user
   before_action :correct_user, only: [:show, :edit, :update, :destroy]
   before_action :set_groups, only: [:new, :create, :show, :edit, :update, :destroy]
-  before_action :set_assignment, only: [:show, :edit, :update, :destroy]
+  before_action :set_assignment, only: [:show, :edit, :update, :destroy, :check_timeout]
+  before_action :check_timeout, only: [:edit, :update]
 
   # GET /assignments
   # GET /assignments.json
@@ -48,8 +49,8 @@ class AssignmentsController < ApplicationController
   # PATCH/PUT /assignments/1
   # PATCH/PUT /assignments/1.json
   def update
-    @due_date = params[:due_date]
-    if @due_date <= Time.now.to_date 
+    @ass = current_user.assignments.build assignment_params
+    if @ass.due_date <= Time.now.to_date 
       flash['danger'] = 'Due was unable.'
       redirect_to  edit_assignment_path(@assignment)
     else
@@ -86,6 +87,12 @@ class AssignmentsController < ApplicationController
     @groups = Group.all
   end
 
+  # Can't change assignment if timeout
+  def check_timeout
+    redirect_to @assignment if @assignment.due_date < Time.now.to_date 
+  end
+  
+  # Check current_use is assignment's user 
   def correct_user
     if Assignment.exists?(params[:id])
       @user = Assignment.find(params[:id]).user

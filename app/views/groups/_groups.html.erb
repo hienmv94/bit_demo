@@ -1,0 +1,22 @@
+<table class="table table-striped">
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Members</th>
+      <th>Assignments</th>
+      <th></th>
+    </tr>
+<% i=0 %>
+  <tbody>
+    <% @groups.each do |group| %>
+      <tr>
+        <td><%= i=i+1 %></td>
+        <td><%= link_to group.name , group %></td>
+        <td><%= group.members.count %></td>
+        <td><%= group.assignments.count %></td>
+        <td><%= link_to 'Edit', edit_group_path(group) %>|
+        <%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

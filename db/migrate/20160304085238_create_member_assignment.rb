@@ -18,7 +18,7 @@ class CreateMemberAssignment < ActiveRecord::Migration
     end
  
     create_table :member_assignments do |t|
-      t.references :member, index: true
+      t.references :member, index: true, foreign_key: true
       t.references :assignment, index: true, foreign_key: true
       t.string :link
       t.timestamps null: false

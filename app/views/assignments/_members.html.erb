@@ -1,0 +1,16 @@
+<h2 class="center text-info">All Member(<%= @assignment.group.members.count %>)</h2>
+	<% if @assignment.group.members.any? %>
+	  <table class="table table-striped">
+		<tr>
+	   	  <th>#</th>
+		  <th>Name</th>
+		</tr>
+		<% i=0 %>
+	<% @assignment.group.members.each do |member|%>
+	   	<tr>
+		  <td><%= i=i+1 %></td>
+		  <td><%= member.name %></td>
+	    </tr>
+	  <% end %>
+	  </table>
+	<% end %>
