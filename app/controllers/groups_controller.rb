@@ -6,7 +6,7 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = current_user.groups
+    @groups = current_user.groups.paginate(:page => params[:page], :per_page => 10)
   end
 
   # GET /groups/1

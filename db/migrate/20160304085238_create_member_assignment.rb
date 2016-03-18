@@ -11,6 +11,7 @@ class CreateMemberAssignment < ActiveRecord::Migration
       t.string :name
       t.string :repo_name
       t.date :due_date
+      t.boolean :check, :default => false
 
       t.references :user, index: true, foreign_key: true
       t.references :group, index: true, foreign_key: true
@@ -20,6 +21,7 @@ class CreateMemberAssignment < ActiveRecord::Migration
     create_table :member_assignments do |t|
       t.references :member, index: true, foreign_key: true
       t.references :assignment, index: true, foreign_key: true
+      t.string :member_name
       t.string :link
       t.timestamps null: false
     end

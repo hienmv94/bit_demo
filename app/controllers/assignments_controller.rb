@@ -8,12 +8,22 @@ class AssignmentsController < ApplicationController
   # GET /assignments
   # GET /assignments.json
   def index
-    @assignments = current_user.assignments    
+    @assignments = current_user.assignments.paginate(:page => params[:page], :per_page => 10)    
   end
+
 
   # GET /assignments/1
   # GET /assignments/1.json
   def show
+    if check_timeout?(@assignment) && !@assignment.check?
+      create_download_repos @assignment
+    end
+
+    if @assignment.check?
+      @members = @assignment.member_assignments  
+    else
+      @members = @assignment.group.members    
+    end
   end
 
   # GET /assignments/new
@@ -30,7 +40,7 @@ class AssignmentsController < ApplicationController
   # POST /assignments.json
   def create
     @assignment = current_user.assignments.build assignment_params
-    if @assignment.due_date <= Time.now.to_date 
+    if @assignment.due_date < Time.now.to_date 
       flash['danger'] = 'Due was unable.'
       redirect_to  new_assignment_path
     else 
@@ -50,7 +60,7 @@ class AssignmentsController < ApplicationController
   # PATCH/PUT /assignments/1.json
   def update
     @ass = current_user.assignments.build assignment_params
-    if @ass.due_date <= Time.now.to_date 
+    if @ass.due_date < Time.now.to_date 
       flash['danger'] = 'Due was unable.'
       redirect_to  edit_assignment_path(@assignment)
     else
@@ -103,6 +113,18 @@ class AssignmentsController < ApplicationController
     else
       flash['danger'] = "Assignment not found"
       redirect_to (assignments_path)
+    end
+  end
+
+  # Create link download repos
+  def create_download_repos assignment
+    assignment.update_attributes :check => true
+    assignment.group.members.each do |member|
+      if assignment.choose_members? member
+        link = "https://bitbucket/#{member.name}/#{assignment.repo_name}.zip"
+        assignment.member_assignments.create(member_id: member.id, member_name: member.name, link: link)
+      end
+      
     end
   end
   

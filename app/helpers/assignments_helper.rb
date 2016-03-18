@@ -11,5 +11,4 @@ module AssignmentsHelper
       content_tag :div, "#{assignment.due_date}", class: ["text"]
     end 
   end
-
 end

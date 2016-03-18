@@ -1,15 +1,17 @@
-<h2 class="center text-info">All Member(<%= @assignment.group.members.count %>)</h2>
-	<% if @assignment.group.members.any? %>
+<h2 class="center text-info">All Member(<%= @members.count %>)</h2>
+	<% if @members.any? %>
 	  <table class="table table-striped">
 		<tr>
 	   	  <th>#</th>
 		  <th>Name</th>
+		  <th>Link</th>
 		</tr>
 		<% i=0 %>
-	<% @assignment.group.members.each do |member|%>
+	<% @members.each do |member|%>
 	   	<tr>
 		  <td><%= i=i+1 %></td>
-		  <td><%= member.name %></td>
+		  <td><%= @assignment.check? ? member.member_name : member.name %></td>
+          <td><%= link_to "download", @assignment.find_link(member.member_id) if @assignment.check? %></td>
 	    </tr>
 	  <% end %>
 	  </table>
