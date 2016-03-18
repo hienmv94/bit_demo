@@ -5,6 +5,7 @@
   <div class="col-md-8 col-md-offset-2">
     <%= link_to 'New assignment', new_assignment_path, class: "btn btn-success" %><br><br>
     <% if @assignments.any? %>
+      <%= will_paginate %>
       <%= render :partial => 'assignments' %>
     <% end %>
   </div>

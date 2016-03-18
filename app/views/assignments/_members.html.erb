@@ -4,12 +4,14 @@
 		<tr>
 	   	  <th>#</th>
 		  <th>Name</th>
+		  <th>Link</th>
 		</tr>
 		<% i=0 %>
 	<% @assignment.group.members.each do |member|%>
 	   	<tr>
 		  <td><%= i=i+1 %></td>
 		  <td><%= member.name %></td>
+          <td><%= link_to "download", @assignment.find_link(member.id) if @assignment.check? %></td>
 	    </tr>
 	  <% end %>
 	  </table>

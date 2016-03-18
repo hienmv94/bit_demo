@@ -11,4 +11,8 @@ class Assignment < ActiveRecord::Base
 	validates :repo_name, presence: true	 
 	validates :due_date, presence: true
 
+	def find_link member_id
+		record = MemberAssignment.get_link(self.id, member_id).first
+		return record.link
+	end
 end

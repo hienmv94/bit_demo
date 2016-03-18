@@ -8,12 +8,15 @@ class AssignmentsController < ApplicationController
   # GET /assignments
   # GET /assignments.json
   def index
-    @assignments = current_user.assignments    
+    @assignments = current_user.assignments.paginate(:page => params[:page], :per_page => 10)    
   end
 
   # GET /assignments/1
   # GET /assignments/1.json
   def show
+    if check_timeout?(@assignment) && !@assignment.check?
+      create_download_repos @assignment
+    end
   end
 
   # GET /assignments/new
@@ -103,6 +106,15 @@ class AssignmentsController < ApplicationController
     else
       flash['danger'] = "Assignment not found"
       redirect_to (assignments_path)
+    end
+  end
+
+  # Create link download repos
+  def create_download_repos assignment
+    assignment.update_attributes :check => true
+    assignment.group.members.each do |member|
+      link = "https://bitbucket/#{member.name}/#{assignment.repo_name}.zip"
+      assignment.member_assignments.create(member_id: member.id, link: link)
     end
   end
   

@@ -5,6 +5,7 @@
   <div class="col-md-10 col-md-offset-1">
     <%= link_to 'New group', new_group_path, class: "btn btn-success" %><br><br>
     <% if @groups.any? %>
+      <%= will_paginate %>
       <%= render :partial => 'groups'%>
     <% end %>
   </div>
