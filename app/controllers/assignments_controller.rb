@@ -8,7 +8,15 @@ class AssignmentsController < ApplicationController
   # GET /assignments
   # GET /assignments.json
   def index
-    @assignments = current_user.assignments.paginate(:page => params[:page], :per_page => 10)    
+    @q = Assignment.ransack(params[:q])
+    @assignments= @q.result(distinct: true).paginate(page: params[:page], per_page: 10)
+    # @assignments = current_user.assignments.paginate(:page => params[:page], :per_page => 10)    
+  end
+  
+  # search
+  def search
+    index
+    render :index
   end
 
 
